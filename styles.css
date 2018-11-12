@@ -1,0 +1,19 @@
+
+#myHeader
+{
+    color: skyblue;
+    background-color: purple;
+}
+body{
+    background-color: indigo;
+    color: skyblue;
+
+}
+input{
+    background-color: purple;
+    color: skyblue;
+}
+footer{
+    color: white;
+    background-color: black;
+}
