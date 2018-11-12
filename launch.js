@@ -99,7 +99,7 @@ function launcherOneFunction()
         console.log("****************This is the name of the first launch*************");
         console.log(launchObject.launches[0].name);
 
-
+//aware this should be different and needs fixed
         row1.innerHTML = launchObject.launches[0].name + " || " + launchObject.launches[0].windowend;
         row2.innerHTML = launchObject.launches[1].name + " || " + launchObject.launches[1].windowend;
         row3.innerHTML = "";
