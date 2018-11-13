@@ -16,19 +16,16 @@ var next5Button = document.getElementById("next5");
 var next5Falcon = document.getElementById("nextFalcon");
 var next5Ariane = document.getElementById("nextAriane");
 var next5LauncherOne = document.getElementById("nextLauncherOne");
-var countdown = document.getElementById("countdown");
+var countdownTimer = document.getElementById("countdown");
 window.addEventListener("load", next5Launches);
 next5Button.addEventListener("click", next5Launches);
 next5Falcon.addEventListener("click", nextFalconLaunches);
 next5Ariane.addEventListener("click", nextArianeLaunches);
 next5LauncherOne.addEventListener("click", nextLauncherOneLaunches);
+
+
 var httpRequest = new XMLHttpRequest();
 
-function myCountdown()
-{
-    //coundown
-
-}
 
 function next5Launches()
 {
@@ -62,10 +59,12 @@ function nextLauncherOneLaunches()
     myHeader.innerHTML = "LauncherOne Launches";
     httpRequest.onreadystatechange = launcherOneFunction;
 }
+
 function launchFunction()
 {
-    if(httpRequest.readyState === 4)
+    if(httpRequest.readyState === 4 && httpRequest.status === 200)
     {
+
         var launchReport = httpRequest.responseText;
         console.log("***************This is my response text or stringified object************");
         console.log(launchReport);
@@ -76,17 +75,40 @@ function launchFunction()
         console.log(launchObject.launches.length);
         console.log("****************This is the name of the first launch*************");
         console.log(launchObject.launches[0].name);
-        for(let i = 0; i < 5; i++)
-        {
-            //var countdown = new Date(launchObject.launches[i].windowend).getTime();
-            myRows[i].innerHTML = launchObject.launches[i].name + " || " + launchObject.launches[i].windowend;
+
+
+            var countdown = new Date(launchObject.launches[0].windowend).getTime();
+
+            var timer = setInterval(function(){
+            var now = new Date().getTime();
+            var distanceBetween = countdown - now;
+
+            var days = Math.floor(distanceBetween / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distanceBetween % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distanceBetween % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distanceBetween % (1000 * 60)) / 1000);
+
+            
+            countdownTimer.innerHTML = days + "d " + hours + "h "
+            + minutes + "m " + seconds + "s ";
+
+
+            if (distanceBetween < 0) {
+                clearInterval(timer);
+                countdownTimer.innerHTML = "Launched!!!";
+            }
+            }, 1000);
+        
+                for(let i = 0; i < 5; i++)
+                {
+                    myRows[i].innerHTML = launchObject.launches[i].name + " || " + launchObject.launches[i].windowend;
+                }
+            }
         }
-    }
-}
 
 function launcherOneFunction()
 {
-    if(httpRequest.readyState === 4)
+    if(httpRequest.readyState === 4 && httpRequest.status === 200)
     {
         var launchReport = httpRequest.responseText;
         console.log("***************This is my response text or stringified object************");
@@ -98,7 +120,6 @@ function launcherOneFunction()
         console.log(launchObject.launches.length);
         console.log("****************This is the name of the first launch*************");
         console.log(launchObject.launches[0].name);
-
 //aware this should be different and needs fixed
         row1.innerHTML = launchObject.launches[0].name + " || " + launchObject.launches[0].windowend;
         row2.innerHTML = launchObject.launches[1].name + " || " + launchObject.launches[1].windowend;
