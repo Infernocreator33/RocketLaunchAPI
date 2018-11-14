@@ -3,7 +3,7 @@
     Date: 11/09/18
 
 */
-"use strict";
+
 var myTable = document.getElementById("myTable");
 var row1 = document.getElementById("row1");
 var row2 = document.getElementById("row2");
@@ -29,6 +29,7 @@ var httpRequest = new XMLHttpRequest();
 
 function next5Launches()
 {
+   
     httpRequest.abort();
     httpRequest.open("get", "https://launchlibrary.net/1.4/launch?next=5");
     httpRequest.send();
@@ -37,6 +38,7 @@ function next5Launches()
 }
 function nextFalconLaunches()
 {
+   
     httpRequest.abort();
     httpRequest.open("get", "https://launchlibrary.net/1.4/launch?name=falcon&next=5");
     httpRequest.send();
@@ -45,6 +47,7 @@ function nextFalconLaunches()
 }
 function nextArianeLaunches()
 {
+    
     httpRequest.abort();
     httpRequest.open("get", "https://launchlibrary.net/1.4/launch?name=ariane&next=5");
     httpRequest.send();
@@ -53,6 +56,7 @@ function nextArianeLaunches()
 }
 function nextLauncherOneLaunches()
 {
+    
     httpRequest.abort();
     httpRequest.open("get", "https://launchlibrary.net/1.4/launch?name=launcherone&next=5");
     httpRequest.send();
@@ -62,6 +66,10 @@ function nextLauncherOneLaunches()
 
 function launchFunction()
 {
+    if(httpRequest.readyState === 3 && httpRequest.status === 200)
+    {
+        clearInterval(timer);
+    }
     if(httpRequest.readyState === 4 && httpRequest.status === 200)
     {
 
@@ -69,7 +77,7 @@ function launchFunction()
         console.log("***************This is my response text or stringified object************");
         console.log(launchReport);
         
-        var launchObject = JSON.parse(launchReport);
+        launchObject = JSON.parse(launchReport);
         console.log("*************This is the Parsed JSON Object*****************");
         console.log(launchObject);
         console.log("*********This is the length of launch list********");
@@ -78,9 +86,9 @@ function launchFunction()
         console.log(launchObject.launches[0].name);
 
 
-            var countdown = new Date(launchObject.launches[0].windowend).getTime();
 
             var timer = setInterval(function(){
+            var countdown = new Date(launchObject.launches[0].net).getTime();
             var now = new Date().getTime();
             var distanceBetween = countdown - now;
 
@@ -99,12 +107,15 @@ function launchFunction()
                 countdownTimer.innerHTML = "Launched!!!";
             }
             }, 1000);
-        
+            
+            
                 for(let i = 0; i < 5; i++)
                 {
-                    myRows[i].innerHTML = launchObject.launches[i].name + " || " + launchObject.launches[i].windowend;
+                    myRows[i].innerHTML = launchObject.launches[i].name + " || " + launchObject.launches[i].net;
                 }
+            
             }
         }
+
 
 
