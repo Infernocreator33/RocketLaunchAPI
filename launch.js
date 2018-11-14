@@ -56,7 +56,9 @@ function nextArianeLaunches()
 }
 function nextLauncherOneLaunches()
 {
-    
+    row3.innerHTML = "";
+    row4.innerHTML = "";
+    row5.innerHTML = "";
     httpRequest.abort();
     httpRequest.open("get", "https://launchlibrary.net/1.4/launch?name=launcherone&next=5");
     httpRequest.send();
@@ -76,7 +78,7 @@ function launchFunction()
         var launchReport = httpRequest.responseText;
         console.log("***************This is my response text or stringified object************");
         console.log(launchReport);
-        
+        //taken var out due to suggestion makes timer clear
         launchObject = JSON.parse(launchReport);
         console.log("*************This is the Parsed JSON Object*****************");
         console.log(launchObject);
