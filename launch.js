@@ -38,7 +38,7 @@ function next5Launches()
 function nextFalconLaunches()
 {
     httpRequest.abort();
-    httpRequest.open("get", "https://launchlibrary.net/1.4/launch?name=falcon");
+    httpRequest.open("get", "https://launchlibrary.net/1.4/launch?name=falcon&next=5");
     httpRequest.send();
     myHeader.innerHTML = "Falcon Launches";
     httpRequest.onreadystatechange = launchFunction;
@@ -46,7 +46,7 @@ function nextFalconLaunches()
 function nextArianeLaunches()
 {
     httpRequest.abort();
-    httpRequest.open("get", "https://launchlibrary.net/1.4/launch?name=ariane");
+    httpRequest.open("get", "https://launchlibrary.net/1.4/launch?name=ariane&next=5");
     httpRequest.send();
     myHeader.innerHTML = "Ariane Launches";
     httpRequest.onreadystatechange = launchFunction;
@@ -54,10 +54,10 @@ function nextArianeLaunches()
 function nextLauncherOneLaunches()
 {
     httpRequest.abort();
-    httpRequest.open("get", "https://launchlibrary.net/1.4/launch?name=launcherone");
+    httpRequest.open("get", "https://launchlibrary.net/1.4/launch?name=launcherone&next=5");
     httpRequest.send();
     myHeader.innerHTML = "LauncherOne Launches";
-    httpRequest.onreadystatechange = launcherOneFunction;
+    httpRequest.onreadystatechange = launchFunction;
 }
 
 function launchFunction()
@@ -68,6 +68,7 @@ function launchFunction()
         var launchReport = httpRequest.responseText;
         console.log("***************This is my response text or stringified object************");
         console.log(launchReport);
+        
         var launchObject = JSON.parse(launchReport);
         console.log("*************This is the Parsed JSON Object*****************");
         console.log(launchObject);
@@ -106,25 +107,4 @@ function launchFunction()
             }
         }
 
-function launcherOneFunction()
-{
-    if(httpRequest.readyState === 4 && httpRequest.status === 200)
-    {
-        var launchReport = httpRequest.responseText;
-        console.log("***************This is my response text or stringified object************");
-        console.log(launchReport);
-        var launchObject = JSON.parse(launchReport);
-        console.log("*************This is the Parsed JSON Object*****************");
-        console.log(launchObject);
-        console.log("*********This is the length of launch list********");
-        console.log(launchObject.launches.length);
-        console.log("****************This is the name of the first launch*************");
-        console.log(launchObject.launches[0].name);
-//aware this should be different and needs fixed
-        row1.innerHTML = launchObject.launches[0].name + " || " + launchObject.launches[0].windowend;
-        row2.innerHTML = launchObject.launches[1].name + " || " + launchObject.launches[1].windowend;
-        row3.innerHTML = "";
-        row4.innerHTML = "";
-        row5.innerHTML = "";
-    }
-}
+
