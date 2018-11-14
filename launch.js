@@ -3,7 +3,7 @@
     Date: 11/09/18
 
 */
-
+//variables
 var myTable = document.getElementById("myTable");
 var row1 = document.getElementById("row1");
 var row2 = document.getElementById("row2");
@@ -17,13 +17,14 @@ var next5Falcon = document.getElementById("nextFalcon");
 var next5Ariane = document.getElementById("nextAriane");
 var next5LauncherOne = document.getElementById("nextLauncherOne");
 var countdownTimer = document.getElementById("countdown");
+//event listeners
 window.addEventListener("load", next5Launches);
 next5Button.addEventListener("click", next5Launches);
 next5Falcon.addEventListener("click", nextFalconLaunches);
 next5Ariane.addEventListener("click", nextArianeLaunches);
 next5LauncherOne.addEventListener("click", nextLauncherOneLaunches);
 
-
+//http request
 var httpRequest = new XMLHttpRequest();
 
 
@@ -56,6 +57,7 @@ function nextArianeLaunches()
 }
 function nextLauncherOneLaunches()
 {
+    //clear last three non LauncherOne rows
     row3.innerHTML = "";
     row4.innerHTML = "";
     row5.innerHTML = "";
@@ -68,13 +70,9 @@ function nextLauncherOneLaunches()
 
 function launchFunction()
 {
-    if(httpRequest.readyState === 3 && httpRequest.status === 200)
-    {
-        clearInterval(timer);
-    }
+    //check ready state and status
     if(httpRequest.readyState === 4 && httpRequest.status === 200)
     {
-
         var launchReport = httpRequest.responseText;
         console.log("***************This is my response text or stringified object************");
         console.log(launchReport);
@@ -88,12 +86,12 @@ function launchFunction()
         console.log(launchObject.launches[0].name);
 
 
-
+            //my timer
             var timer = setInterval(function(){
             var countdown = new Date(launchObject.launches[0].net).getTime();
             var now = new Date().getTime();
             var distanceBetween = countdown - now;
-
+            //XXd XXh XXm XXs format for countdown
             var days = Math.floor(distanceBetween / (1000 * 60 * 60 * 24));
             var hours = Math.floor((distanceBetween % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((distanceBetween % (1000 * 60 * 60)) / (1000 * 60));
@@ -103,14 +101,14 @@ function launchFunction()
             countdownTimer.innerHTML = days + "d " + hours + "h "
             + minutes + "m " + seconds + "s ";
 
-
+            //clear and change display
             if (distanceBetween < 0) {
                 clearInterval(timer);
                 countdownTimer.innerHTML = "Launched!!!";
             }
             }, 1000);
             
-            
+                //pull to get name and launch date for all rows
                 for(let i = 0; i < 5; i++)
                 {
                     myRows[i].innerHTML = launchObject.launches[i].name + " || " + launchObject.launches[i].net;
