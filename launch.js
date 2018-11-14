@@ -26,8 +26,6 @@ next5LauncherOne.addEventListener("click", nextLauncherOneLaunches);
 
 //http request
 var httpRequest = new XMLHttpRequest();
-
-
 function next5Launches()
 {
    
